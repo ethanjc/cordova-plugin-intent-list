@@ -14,11 +14,7 @@ Demo.
 
 ## 1. Installation
 
-    cordova plugin add cordova-plugin-intent-list
-
-or directly via git (unstable)
-
-    cordova plugin add https://github.com/nick-denry/cordova-plugin-intent-list
+    cordova plugin add https://github.com/ethanjc/cordova-plugin-intent-list
 
 ## 2. Usage
 
