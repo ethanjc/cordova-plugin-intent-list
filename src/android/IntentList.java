@@ -81,9 +81,16 @@ public class IntentList extends CordovaPlugin {
                     for (ResolveInfo resolveInfo : resovleInfoList) {
                         String packageName = resolveInfo.activityInfo.packageName; // Get Intent package name
                         CharSequence intentLabel = resolveInfo.loadLabel(packageManager); //这里获取的是应用名 //Keep original comment ;)
-                        Drawable appIcon = resolveInfo.loadIcon(packageManager); // Get Intent icon and convert it to base64
+                        Drawable banner = resolveInfo.activityInfo.loadBanner(packageManager); // Get Intent icon and convert it to base64
+                        if (banner == null) {
+                            banner = resolveInfo.activityInfo.applicationInfo.loadBanner(packageManager);
+
+                            if (banner == null) {
+                                banner = resolveInfo.loadIcon(packageManager);
+                            }
+                        }
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        Bitmap bitmap = drawableToBitmap(appIcon);
+                        Bitmap bitmap = drawableToBitmap(banner);
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
                         byte[] intentImageBytes = baos.toByteArray();
                         // Convert Intent icon to base64
