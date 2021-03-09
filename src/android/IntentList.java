@@ -80,6 +80,15 @@ public class IntentList extends CordovaPlugin {
                     JSONArray applicationsList = new JSONArray();
                     for (ResolveInfo resolveInfo : resovleInfoList) {
                         String packageName = resolveInfo.activityInfo.packageName; // Get Intent package name
+                        Intent leanbackIntent = packageManager.getLeanbackLaunchIntentForPackage(packageName);
+
+                        if (leanbackIntent == null) {
+                            continue;
+                        }
+
+                        String action = leanbackIntent.getAction();
+                        String className = leanbackIntent.getComponent().getClassName();
+
                         CharSequence intentLabel = resolveInfo.loadLabel(packageManager); //这里获取的是应用名 //Keep original comment ;)
                         Drawable banner = resolveInfo.activityInfo.loadBanner(packageManager); // Get Intent icon and convert it to base64
                         if (banner == null) {
@@ -101,6 +110,8 @@ public class IntentList extends CordovaPlugin {
                         intentInfo.put("label", intentLabel);
                         intentInfo.put("package", packageName);
                         intentInfo.put("packageIcon", intentIconBase64);
+                        intentInfo.put("action", action);
+                        intentInfo.put("className", className);
                         applicationsList.put(intentInfo);
                     }
                     callbackContext.success(applicationsList);
